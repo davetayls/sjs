@@ -1,10 +1,11 @@
 (function(global){
-	
-	var java = global.java,
+		
+	var java,
 		javaFile,
 		javaSystem;
-		
-	if (java){
+
+	if (typeof global.java !== 'undefined'){
+		java = global.java;
 		javaFile = java.io.File,
 		javaSystem = java.lang.System;		
 	}
@@ -12,15 +13,15 @@
 	// global setup
 	var sjs = {
 		version: '@SJS_VERSION',
-		fileSeparator : javaSystem.getProperty('file.separator')||'\\',
+		fileSeparator : javaSystem ? javaSystem.getProperty('file.separator') : '\\',
 		file : function(path){
 			return new sjs.io.File(path);
 		},
 		print : function(s){
-			if (print){
+			if (typeof print !== 'undefined'){
 				print(s);
-			} else if (global.wsh){
-				global.wsh.Echo(s);
+			} else if (global.WSH){
+				global.WSH.Echo(s);
 			}
 		}
 	};
@@ -32,8 +33,8 @@
 		if (java){
 			this.javaFile = new javaFile(path);
 		}
-		this.contents = this.readText();		
 		this.path = path;
+		this.contents = this.readText();		
 	};
 	sjs.io.File.prototype = {
 		contents: null,
@@ -66,6 +67,9 @@
 					while((line = buffer.readLine())){
 				        this.contents += line + '\n';
 					}
+				}else if (ActiveXObject){
+					var fs = new ActiveXObject("Scripting.FileSystemObject");
+					this.contents = fs.OpenTextFile(this.path,1).ReadAll();					
 				}
 			}
 			return this.contents;
