@@ -6,15 +6,15 @@ The aim of this project is to give a very simple server side JavaScript framewor
 It will initially be compatible with Mozilla Rhino and Microsoft cscript.exe and will allow you to do the following:
 
 	var fileContents = 
-	sjs
-		.file('test.txt')
-		.append('end of the doc\n')
-		.prepend('new doc header\n')
-		.append(3,'new line')
+	sjs	
+		.file('test.txt')				// open text file
+		.append('end of the doc\n')		// append string to end
+		.prepend('new doc header\n')	// insert string at the beginning
+		.append(3,'new line')			// insert string as new line at line 3
+		.save()							// save changes to disk
+		.save('test2.txt')				// save to new file
+		.prepend('test 2 header\n')		
 		.save()
-		.save('test2.txt')
-		.prepend('test 2 header\n')
-		.save()
-		.readText(true);
+		.readText(true);				// return file contents
 	
-	sjs.print(f);
+	sjs.print(fileContents);			//  print contents to output
