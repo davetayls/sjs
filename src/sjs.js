@@ -75,6 +75,9 @@
 			return this.contents;
 		},
 		save: function(newFile){
+			if (typeof newFile === 'string'){
+				this.path = newFile;
+			}			
 			if (java){
 				if (typeof newFile === 'string'){
 					this.javaFile = java.io.File(newFile);
@@ -83,6 +86,13 @@
 				var buffer = new java.io.BufferedWriter(writer);
 				buffer.write(this.contents);
 				buffer.close();
+			}else if (ActiveXObject){
+				var fso, f;
+				var ForReading = 1, ForWriting = 2;
+				fso = new ActiveXObject("Scripting.FileSystemObject");
+				f = fso.OpenTextFile(this.path, ForWriting, true);
+				f.Write(this.contents);
+				f.Close();
 			}
 			return this;
 		}
