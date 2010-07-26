@@ -45,11 +45,11 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 	sjs.arguments()						// get arguments object
 	.each(function(){					// run function for each
 		sjs.print(
-			this.key+'-'+this.value
+			this.key + '-' + this.values.join(',')
 		);
 	});
 
-	sjs.print(file.readText());			// return cached file contents
-	sjs.print(file.readText(true));		// read in saved file contents and return
+	//sjs.print(file.readText());			// return cached file contents
+	//sjs.print(file.readText(true));		// read in saved file contents and return
 
 })(this);

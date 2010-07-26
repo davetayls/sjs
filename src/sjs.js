@@ -59,30 +59,41 @@
 	global.sjs = sjs;
 	// arguments
 	sjs.Args = function(args,separator){
-		this.arguments = [];
+		this.arguments = {};
 		var length = args.length;
 		for (var i = 0; i < length; i += 1) {
 			var keyValue = args[i].split(separator);
-			var arg = new sjs.Arg(keyValue[0],keyValue[1]);
-			this.arguments.push(arg);
-			this[keyValue[0]] = arg;
+			var arg = this.arguments[keyValue[0]] 
+			if (!arg) {
+				arg = new sjs.Arg(keyValue[0]);
+			}
+			arg.addValue(keyValue[1]);
+			if (!this.arguments[keyValue[0]]){
+				this.arguments[keyValue[0]] = arg;				
+			}
 		}
 	};
 	sjs.Args.prototype = {
 		each: function(fn){
-			var exit = false;
-			var length = this.arguments.length;
-			for (var i = 0;i<length && !exit;i+=1){
-				if(fn.call(this.arguments[i]) === false){
-					exit = true;
-				}
+			for (key in this.arguments){
+				if(fn.call(this.arguments[key]) === false){
+					break;
+				}					
 			}
 			return this;
 		}
 	};
-	sjs.Arg = function(key,value){
+	sjs.Arg = function(key){
 		this.key = key;
-		this.value = value;
+		this.values = [];
+	};
+	sjs.Arg.prototype = {
+		addValue: function(val){
+			this.values.push(val);
+		},
+		join: function(separator){
+			return this.values.join(separator);
+		}
 	};
 	
 	/* io */
@@ -108,6 +119,7 @@
 		},
 		clear: function(){
 			this.contents = '';
+			return this;
 		},
 		insertLine: function(index,s){
 			var lines = this.readText().split('\n');
@@ -159,6 +171,7 @@
 		},
 		text: function(text){
 			this.contents = text;
+			return this;
 		}
 	};
 	
