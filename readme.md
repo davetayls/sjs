@@ -20,7 +20,7 @@ c:\project>cscript project.js arg1::var arg2::"foo bar"
 Using rhino:
 c:\project>java -jar js.jar project.js arg1::var arg2::"foo bar"
 
-Example of what you can do
+Simple File Operations
 --------------------------
 
 	var file = 
@@ -36,13 +36,18 @@ Example of what you can do
 		.clear()
 		.text('clear and set content of text file');
 	
-	sjs.arguments()						// get arguments object
-	.each(function(){					// run function for each
-		sjs.print(
-			this.key+'-'+this.value
-		);
-	});
-
 	sjs.print(file.readText());			// return cached file contents
 	sjs.print(file.readText(true));		// read in saved file contents and return
+
+Simple Argument Access
+----------------------
+
+	sjs
+		.arguments()						// get arguments object
+		.each(function(){					// run function for each
+			sjs.print(
+				this.key+'-'+this.values.join(',')
+			);
+		});
+
 
