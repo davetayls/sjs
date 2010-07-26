@@ -1,6 +1,7 @@
 (function(global){
 		
-	var java,
+	var commandLineArgs,
+		java,
 		javaFile,
 		javaSystem;
 
@@ -14,8 +15,31 @@
 	var sjs = {
 		version: '@SJS_VERSION',
 		fileSeparator : javaSystem ? javaSystem.getProperty('file.separator') : '\\',
+		arguments: function(){
+			if (!commandLineArgs){
+				if(java){
+					commandLineArgs = new sjs.Args(global.arguments,'::');
+				}else if(ActiveXObject){
+					var items = [];
+					for (var i=0;i<global.WSH.Arguments.length;i+=1){
+						items.push(global.WSH.Arguments.Item(i));
+					}
+					commandLineArgs = new sjs.Args(items,'::');
+				}				
+			}
+			return commandLineArgs;
+		},
 		file : function(path){
 			return new sjs.io.File(path);
+		},
+		load: function(path){
+			if (typeof load !== 'undefined'){
+				load(sjsLocation);
+			}else if (typeof ActiveXObject !== 'undefined'){
+				eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(sjsLocation,1).ReadAll());
+			}else{
+				throw('sjs is not compatible with this JavaScript engine');
+			}			
 		},
 		print : function(s){
 			if (typeof print !== 'undefined'){
@@ -23,11 +47,45 @@
 			} else if (global.WSH){
 				global.WSH.Echo(s);
 			}
+		},
+		workingDir: function(){
+			if (java){
+				return environment['user.dir'];
+			}else if (WScript){
+				return WScript.CreateObject("WScript.Shell").CurrentDirectory;
+			}
 		}
 	};
 	global.sjs = sjs;
-
-	// io
+	// arguments
+	sjs.Args = function(args,separator){
+		this.arguments = [];
+		var length = args.length;
+		for (var i = 0; i < length; i += 1) {
+			var keyValue = args[i].split(separator);
+			var arg = new sjs.Arg(keyValue[0],keyValue[1]);
+			this.arguments.push(arg);
+			this[keyValue[0]] = arg;
+		}
+	};
+	sjs.Args.prototype = {
+		each: function(fn){
+			var exit = false;
+			var length = this.arguments.length;
+			for (var i = 0;i<length && !exit;i+=1){
+				if(fn.call(this.arguments[i]) === false){
+					exit = true;
+				}
+			}
+			return this;
+		}
+	};
+	sjs.Arg = function(key,value){
+		this.key = key;
+		this.value = value;
+	};
+	
+	/* io */
 	sjs.io = {};
 	sjs.io.File = function(path){
 		if (java){
@@ -47,6 +105,9 @@
 				this.contents += s;
 			}
 			return this;
+		},
+		clear: function(){
+			this.contents = '';
 		},
 		insertLine: function(index,s){
 			var lines = this.readText().split('\n');
@@ -95,6 +156,9 @@
 				f.Close();
 			}
 			return this;
+		},
+		text: function(text){
+			this.contents = text;
 		}
 	};
 	
