@@ -1,5 +1,11 @@
 sjs
 ===
+Server side JavaScript Framework
+http://github.com/davetayls/sjs
+
+Copyright (c) 2010 Dave Taylor (@davetayls), http://the-taylors.org
+This source code is subject to terms and conditions of the New BSD License.
+A copy of the license can be found in the license.txt file at the root of this distribution.
 
 The aim of this project is to give a very simple server side JavaScript framework which will work across various platforms.
 
