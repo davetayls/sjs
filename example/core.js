@@ -20,36 +20,34 @@
 	
 	Using rhino:
 	c:\project>java -jar js.jar project.js arg1::var arg2::"foo bar"
- */
 
-/* load sjs */
+--------------------------------------------------------
+load sjs if not used with juxtapo combiner
 var sjsLocation = 'sjs.js';
 if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObject !== 'undefined'){eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(sjsLocation,1).ReadAll());}else{throw('sjs is compatible with either Rhino or cscript');}
-/* end sjs load */
+end sjs load 
+--------------------------------------------------------
+*/
+var file = 
+sjs
+	.file('test.txt')				// open text file
+	.append('end of the doc\n')		// append string to end
+	.prepend('new doc header\n')	// insert string at the beginning
+	.append(3,'new line')			// insert string as new line at line 3
+	.save()							// save changes to disk
+	.save('test2.txt')				// save to new file
+	.prepend('test 2 header\n')
+	.save()
+	.clear()
+	.text('clear and set content of text file');
 
-(function(global){
-	
-	var file = 
-	sjs
-		.file('test.txt')				// open text file
-		.append('end of the doc\n')		// append string to end
-		.prepend('new doc header\n')	// insert string at the beginning
-		.append(3,'new line')			// insert string as new line at line 3
-		.save()							// save changes to disk
-		.save('test2.txt')				// save to new file
-		.prepend('test 2 header\n')
-		.save()
-		.clear()
-		.text('clear and set content of text file');
-	
-	sjs.arguments()						// get arguments object
-	.each(function(){					// run function for each
-		sjs.print(
-			this.key + '-' + this.values.join(',')
-		);
-	});
+sjs.arguments()						// get arguments object
+.each(function(){					// run function for each
+	sjs.print(
+		this.key + '-' + this.values.join(',')
+	);
+});
 
-	//sjs.print(file.readText());			// return cached file contents
-	//sjs.print(file.readText(true));		// read in saved file contents and return
+sjs.print(file.readText());			// return cached file contents
+sjs.print(file.readText(true));		// read in saved file contents and return
 
-})(this);
