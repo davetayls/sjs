@@ -20,8 +20,8 @@
 // UPDATE THE FOLLOWING
 var combinerFileName = "example-project.js";
 var includes = [];
-includes.push("../src/sjs.js");
-includes.push("core.js");
+includes.push("src/sjs.js");
+includes.push("example/core.js");
 
 	
 

@@ -22,15 +22,15 @@
 	c:\project>java -jar js.jar project.js arg1::var arg2::"foo bar"
 
 --------------------------------------------------------
-load sjs if not used with juxtapo combiner
+//load sjs if not used with juxtapo combiner
 var sjsLocation = 'sjs.js';
 if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObject !== 'undefined'){eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(sjsLocation,1).ReadAll());}else{throw('sjs is compatible with either Rhino or cscript');}
-end sjs load 
+//end sjs load 
 --------------------------------------------------------
 */
 var file = 
 sjs
-	.file('test.txt')				// open text file
+	.file('test/test.txt')				// open text file
 	.append('end of the doc\n')		// append string to end
 	.prepend('new doc header\n')	// insert string at the beginning
 	.append(3,'new line')			// insert string as new line at line 3
@@ -41,13 +41,18 @@ sjs
 	.clear()
 	.text('clear and set content of text file');
 
+sjs.print('You have typed in the following arguments');
+sjs.print('=========================================')
 sjs.arguments()						// get arguments object
 .each(function(){					// run function for each
 	sjs.print(
-		this.key + '-' + this.values.join(',')
+		this.key + ' = ' + this.values.join(',')
 	);
 });
 
+sjs.print('');
+sjs.print('Contents of test text file');
+sjs.print('==========================')
 sjs.print(file.readText());			// return cached file contents
 sjs.print(file.readText(true));		// read in saved file contents and return
 
