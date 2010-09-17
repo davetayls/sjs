@@ -1,3 +1,33 @@
+/*
+	sjs
+	===
+	Server side JavaScript Framework
+	http://github.com/davetayls/sjs
+	
+	Copyright (c) 2010 Dave Taylor (@davetayls), http://the-taylors.org
+	This source code is subject to terms and conditions of the New BSD License.
+	A copy of the license can be found in the license.txt file at the root of 
+	this distribution.
+	
+	The aim of this project is to give a very simple server side JavaScript 
+	framework which will work across various platforms.
+	
+	It will initially be compatible with Mozilla Rhino and Microsoft cscript.exe 
+	and will allow you to do the following:
+	
+	Using cscript:
+	c:\project>cscript project.js arg1::var arg2::"foo bar"
+	
+	Using rhino:
+	c:\project>java -jar js.jar project.js arg1::var arg2::"foo bar"
+
+--------------------------------------------------------
+//load sjs if not used with juxtapo combiner
+var sjsLocation = 'sjs.js';
+if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObject !== 'undefined'){eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(sjsLocation,1).ReadAll());}else{throw('sjs is compatible with either Rhino or cscript');}
+//end sjs load 
+--------------------------------------------------------
+*/
 (function(global){
 		
 	var commandLineArgs,
