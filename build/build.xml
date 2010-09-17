@@ -34,6 +34,7 @@
 				<include name="${project.directory}\src\*.*"/>
 			</fileset>
 		</copy>
+		<copy file="${project.directory}\readme.md" tofile="${release.directory}\readme.txt" />
 		<!-- combine sjs src 
 		<exec 
 			program="${combiner}" 
