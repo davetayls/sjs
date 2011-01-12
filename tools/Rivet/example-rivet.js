@@ -16,15 +16,15 @@
     
     Full documentation can be found at http://github.com/davetayls/rivet
 ---------------------------------------------------*/
-/*jslint evil: true */
-/*global ActiveXObject,environment,load,java,WScript */
 (function() {
 
 // UPDATE THE FOLLOWING
-var combinerFileName = "example-project.js";
-var includes = [];
-includes.push("src/sjs.js");
-includes.push("example/core.js");
+var combinerFileName = "example-rivet.js"; 	// this is the name or regEx to match the current file
+var includes = [];							
+includes.push("jsfile.js");					// specifies a file to be included
+includes.push("folder/jsfile.js");
+
+	
 
 
 /* ********* DON'T CHANGE ANYTHING BELOW THIS LINE ******************************/
@@ -61,7 +61,7 @@ includes.push("example/core.js");
 		dirSeparator = location.indexOf('\\') === -1 ? '/' : '\\';
 		location = location.substr(location.length-1,1) === dirSeparator || location === '' ? location : location+dirSeparator;
 		return location;
-    }
+    };
     var combinerJsLocation = getJsLocation(combinerFileName);
 	function resolveAbsoluteUrl(baseUrl,relativeUrl) {
 		try {
@@ -84,7 +84,7 @@ includes.push("example/core.js");
 		}
 	}
     function includeJs() {
-		for (var i = 0; i < includes.length; i+=1) {
+		for (var i = 0; i < includes.length; i++) {
 			var src = resolveAbsoluteUrl(combinerJsLocation, includes[i]);
 
 			// If used within a browser
@@ -105,6 +105,6 @@ includes.push("example/core.js");
 			}
 		}
         return null;
-    }
+    };
 	includeJs();
 })();

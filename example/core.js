@@ -22,7 +22,7 @@
 	c:\project>java -jar js.jar project.js arg1::var arg2::"foo bar"
 
 --------------------------------------------------------
-//load sjs if not used with juxtapo combiner
+//load sjs if not used with Rivet combiner
 var sjsLocation = 'sjs.js';
 if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObject !== 'undefined'){eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(sjsLocation,1).ReadAll());}else{throw('sjs is compatible with either Rhino or cscript');}
 //end sjs load 
