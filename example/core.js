@@ -28,6 +28,13 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 //end sjs load 
 --------------------------------------------------------
 */
+/*jslint browser: true, vars: true, white: true, forin: true, plusplus: true, indent: 4 */
+/*global define,require,sjs */
+
+// display external url
+sjs.get('http://google.co.uk');
+
+// create and change text files
 var file = 
 sjs
 	.file('test/test.txt')				// open text file
@@ -42,7 +49,7 @@ sjs
 	.text('clear and set content of text file');
 
 sjs.print('You have typed in the following arguments');
-sjs.print('=========================================')
+sjs.print('=========================================');
 sjs.arguments()						// get arguments object
 .each(function(){					// run function for each
 	sjs.print(

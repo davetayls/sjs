@@ -28,7 +28,11 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 //end sjs load 
 --------------------------------------------------------
 */
+/*jslint browser: true, vars: true, white: true, forin: true, plusplus: true, indent: 4, evil: true */
+/*global define,require,ActiveXObject,load,print,WScript,environment */
+
 (function(global){
+    'use strict';
 		
 	var commandLineArgs,
 		java,
@@ -37,7 +41,7 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 
 	if (typeof global.java !== 'undefined'){
 		java = global.java;
-		javaFile = java.io.File,
+		javaFile = java.io.File;
 		javaSystem = java.lang.System;		
 	}
 	
@@ -50,8 +54,9 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 				if(java){
 					commandLineArgs = new sjs.Args(global.arguments,'::');
 				}else if(ActiveXObject){
-					var items = [];
-					for (var i=0;i<global.WSH.Arguments.length;i+=1){
+					var items = [],
+                        i;
+					for (i=0;i<global.WSH.Arguments.length;i+=1){
 						items.push(global.WSH.Arguments.Item(i));
 					}
 					commandLineArgs = new sjs.Args(items,'::');
@@ -62,11 +67,22 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 		file : function(path){
 			return new sjs.io.File(path);
 		},
+        get: function(url, calback) {
+            var self = this;
+
+			if (java){
+                return readUrl(url);
+			}else if (WScript){
+            }
+            
+        },
 		load: function(path){
 			if (typeof load !== 'undefined'){
-				load(sjsLocation);
+				load(path);
 			}else if (typeof ActiveXObject !== 'undefined'){
-				eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(sjsLocation,1).ReadAll());
+				eval(new ActiveXObject("Scripting.FileSystemObject")
+                    .OpenTextFile(path,1)
+                    .ReadAll());
 			}else{
 				throw('sjs is not compatible with this JavaScript engine');
 			}			
@@ -87,13 +103,15 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 		}
 	};
 	global.sjs = sjs;
+
 	// arguments
 	sjs.Args = function(args,separator){
 		this.arguments = {};
-		var length = args.length;
-		for (var i = 0; i < length; i += 1) {
+		var length = args.length,
+            i;
+		for (i = 0; i < length; i += 1) {
 			var keyValue = args[i].split(separator);
-			var arg = this.arguments[keyValue[0]] 
+			var arg = this.arguments[keyValue[0]];
 			if (!arg) {
 				arg = new sjs.Arg(keyValue[0]);
 			}
@@ -105,6 +123,7 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 	};
 	sjs.Args.prototype = {
 		each: function(fn){
+            var key;
 			for (key in this.arguments){
 				if(fn.call(this.arguments[key]) === false){
 					break;
@@ -206,4 +225,4 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 	};
 	
 	
-})(this);
+}(this));

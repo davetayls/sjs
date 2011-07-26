@@ -14,6 +14,12 @@ new doc header
 new line
 new doc header
 new line
+new doc header
+new line
+new doc header
+new line
+new doc header
+new line
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi enim,
 new line
 consectetur adipiscing justo. Maecenas non nunc ut nunc rutrum pulvinar.
@@ -37,6 +43,9 @@ dapibus id sodales et, hendrerit at tellus. Vivamus egestas elit faucibus neque 
 malesuada urna convallis. Phasellus eget arcu consequat ipsum scelerisque rhoncus id vel
 lacus. Nullam dignissim risus a lectus sollicitudin sit amet venenatis felis dictum. Nam
 ultricies consectetur lectus a bibendum. Nunc sed nunc orci, egestas consequat dui.
+end of the doc
+end of the doc
+end of the doc
 end of the doc
 end of the doc
 end of the doc
