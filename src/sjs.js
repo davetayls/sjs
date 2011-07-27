@@ -141,12 +141,12 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
             return arg;
         },
         getValue: function(key) {
-            return this.get(key).value;   
+            return this.get(key).values;   
         },
         getSingleValue: function(key){
             var val = this.getValue(key)[0];
             if (val && val.length) {
-                return val[0];
+                return val;
             }
         }
 	};
