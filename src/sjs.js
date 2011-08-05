@@ -45,7 +45,7 @@ if (typeof load !== 'undefined'){load(sjsLocation);}else if (typeof ActiveXObjec
 	
 	// global setup
 	var sjs = {
-		version: '@SJS_VERSION',
+		version: '0.5',
 		fileSeparator : javaSystem ? javaSystem.getProperty('file.separator') : '\\',
 		args: function(){
 			if (!commandLineArgs){
